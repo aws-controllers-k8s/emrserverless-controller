@@ -1,5 +1,5 @@
-ignore:
-  resource_names:
-      - Application
 sdk_names:
   model_name: emr-serverless
+ignore:
+  field_paths:
+    - Application.RuntimeConfiguration
