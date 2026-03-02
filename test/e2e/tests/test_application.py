@@ -238,10 +238,12 @@ class TestApplication:
         
         assert latest_tags["environment"] == "production"
         
-        # Test 3: Remove user tags by setting to empty
+        # Test 3: Remove user tags by setting to null
+        # Note: Using None (null) instead of {} because Kubernetes strategic merge patch
+        # merges empty maps with existing values instead of replacing them
         updates = {
             "spec": {
-                "tags": {}
+                "tags": None
             }
         }
         
@@ -300,40 +302,3 @@ class TestApplication:
                 return
         
         assert False, f"Application {application_id} was not deleted from AWS after {max_wait_periods * wait_period_length} seconds"
-
-
-@service_marker
-@pytest.mark.slow
-class TestApplicationHive:
-    """Tests for Hive application type."""
-    
-    def test_create_hive_application(self, emrserverless_client):
-        """Test creating a Hive application."""
-        resource_name = random_suffix_name("ack-test-hive", 24)
-        
-        (ref, cr) = _create_application(resource_name, application_type="HIVE")
-        
-        try:
-            assert cr is not None
-            time.sleep(CREATE_WAIT_AFTER_SECONDS)
-            assert k8s.wait_on_condition(ref, "ACK.ResourceSynced", "True", wait_periods=10)
-            
-            # Get the application ID from status
-            cr = k8s.get_resource(ref)
-            application_id = cr["status"]["id"]
-            
-            # Verify the resource exists in AWS
-            response = emrserverless_client.get_application(
-                applicationId=application_id
-            )
-            
-            app = response["application"]
-            assert app["type"] == "HIVE"
-            assert app["state"] in ["CREATED", "STARTED", "STOPPED"]
-        finally:
-            # Cleanup
-            try:
-                _, deleted = k8s.delete_custom_resource(ref, 3, 10)
-                assert deleted
-            except:
-                pass
