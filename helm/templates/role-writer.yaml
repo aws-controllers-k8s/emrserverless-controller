@@ -16,6 +16,7 @@ rules:
 - apiGroups:
   - emrserverless.services.k8s.aws
   resources:
+  - applications
   verbs:
   - create
   - delete
@@ -27,6 +28,7 @@ rules:
 - apiGroups:
   - emrserverless.services.k8s.aws
   resources:
+  - applications
   verbs:
   - get
   - patch

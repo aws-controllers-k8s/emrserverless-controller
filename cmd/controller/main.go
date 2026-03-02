@@ -39,6 +39,8 @@ import (
 	svctypes "github.com/aws-controllers-k8s/emrserverless-controller/apis/v1alpha1"
 	svcresource "github.com/aws-controllers-k8s/emrserverless-controller/pkg/resource"
 
+	_ "github.com/aws-controllers-k8s/emrserverless-controller/pkg/resource/application"
+
 	"github.com/aws-controllers-k8s/emrserverless-controller/pkg/version"
 )
 

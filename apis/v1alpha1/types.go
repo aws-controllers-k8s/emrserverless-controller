@@ -27,3 +27,285 @@ var (
 	_ = &aws.JSONValue{}
 	_ = ackv1alpha1.AWSAccountID("")
 )
+
+// The summary of attributes associated with an application.
+type ApplicationSummary struct {
+	Architecture *string      `json:"architecture,omitempty"`
+	ARN          *string      `json:"arn,omitempty"`
+	CreatedAt    *metav1.Time `json:"createdAt,omitempty"`
+	ID           *string      `json:"id,omitempty"`
+	Name         *string      `json:"name,omitempty"`
+	ReleaseLabel *string      `json:"releaseLabel,omitempty"`
+	State        *string      `json:"state,omitempty"`
+	StateDetails *string      `json:"stateDetails,omitempty"`
+	Type         *string      `json:"type_,omitempty"`
+	UpdatedAt    *metav1.Time `json:"updatedAt,omitempty"`
+}
+
+// Information about an application. Amazon EMR Serverless uses applications
+// to run jobs.
+type Application_SDK struct {
+	ApplicationID *string `json:"applicationID,omitempty"`
+	Architecture  *string `json:"architecture,omitempty"`
+	ARN           *string `json:"arn,omitempty"`
+	// The configuration for an application to automatically start on job submission.
+	AutoStartConfiguration *AutoStartConfig `json:"autoStartConfiguration,omitempty"`
+	// The configuration for an application to automatically stop after a certain
+	// amount of time being idle.
+	AutoStopConfiguration *AutoStopConfig `json:"autoStopConfiguration,omitempty"`
+	CreatedAt             *metav1.Time    `json:"createdAt,omitempty"`
+	// The configuration object that allows encrypting local disks.
+	DiskEncryptionConfiguration *DiskEncryptionConfiguration `json:"diskEncryptionConfiguration,omitempty"`
+	// The IAM Identity Center Configuration accepts the Identity Center instance
+	// parameter required to enable trusted identity propagation. This configuration
+	// allows identity propagation between integrated services and the Identity
+	// Center instance.
+	IdentityCenterConfiguration *IdentityCenterConfiguration `json:"identityCenterConfiguration,omitempty"`
+	// The applied image configuration.
+	ImageConfiguration *ImageConfiguration               `json:"imageConfiguration,omitempty"`
+	InitialCapacity    map[string]*InitialCapacityConfig `json:"initialCapacity,omitempty"`
+	// The configuration to use to enable the different types of interactive use
+	// cases in an application.
+	InteractiveConfiguration *InteractiveConfiguration `json:"interactiveConfiguration,omitempty"`
+	// The configuration object that enables job level cost allocation.
+	JobLevelCostAllocationConfiguration *JobLevelCostAllocationConfiguration `json:"jobLevelCostAllocationConfiguration,omitempty"`
+	// The maximum allowed cumulative resources for an application. No new resources
+	// will be created once the limit is hit.
+	MaximumCapacity *MaximumAllowedResources `json:"maximumCapacity,omitempty"`
+	// The configuration setting for monitoring.
+	MonitoringConfiguration *MonitoringConfiguration `json:"monitoringConfiguration,omitempty"`
+	Name                    *string                  `json:"name,omitempty"`
+	// The network configuration for customer VPC connectivity.
+	NetworkConfiguration *NetworkConfiguration `json:"networkConfiguration,omitempty"`
+	ReleaseLabel         *string               `json:"releaseLabel,omitempty"`
+	RuntimeConfiguration []*Configuration      `json:"runtimeConfiguration,omitempty"`
+	// The scheduler configuration for batch and streaming jobs running on this
+	// application. Supported with release labels emr-7.0.0 and above.
+	SchedulerConfiguration   *SchedulerConfiguration             `json:"schedulerConfiguration,omitempty"`
+	State                    *string                             `json:"state,omitempty"`
+	StateDetails             *string                             `json:"stateDetails,omitempty"`
+	Tags                     map[string]*string                  `json:"tags,omitempty"`
+	Type                     *string                             `json:"type_,omitempty"`
+	UpdatedAt                *metav1.Time                        `json:"updatedAt,omitempty"`
+	WorkerTypeSpecifications map[string]*WorkerTypeSpecification `json:"workerTypeSpecifications,omitempty"`
+}
+
+// The configuration for an application to automatically start on job submission.
+type AutoStartConfig struct {
+	Enabled *bool `json:"enabled,omitempty"`
+}
+
+// The configuration for an application to automatically stop after a certain
+// amount of time being idle.
+type AutoStopConfig struct {
+	Enabled            *bool  `json:"enabled,omitempty"`
+	IdleTimeoutMinutes *int64 `json:"idleTimeoutMinutes,omitempty"`
+}
+
+// The Amazon CloudWatch configuration for monitoring logs. You can configure
+// your jobs to send log information to CloudWatch.
+type CloudWatchLoggingConfiguration struct {
+	Enabled             *bool                `json:"enabled,omitempty"`
+	EncryptionKeyARN    *string              `json:"encryptionKeyARN,omitempty"`
+	LogGroupName        *string              `json:"logGroupName,omitempty"`
+	LogStreamNamePrefix *string              `json:"logStreamNamePrefix,omitempty"`
+	LogTypes            map[string][]*string `json:"logTypes,omitempty"`
+}
+
+// A configuration specification to be used when provisioning an application.
+// A configuration consists of a classification, properties, and optional nested
+// configurations. A classification refers to an application-specific configuration
+// file. Properties are the settings you want to change in that file.
+type Configuration struct {
+	Classification *string            `json:"classification,omitempty"`
+	Properties     map[string]*string `json:"properties,omitempty"`
+}
+
+// A configuration specification to be used to override existing configurations.
+type ConfigurationOverrides struct {
+	ApplicationConfiguration []*Configuration `json:"applicationConfiguration,omitempty"`
+	// The configuration object that allows encrypting local disks.
+	DiskEncryptionConfiguration *DiskEncryptionConfiguration `json:"diskEncryptionConfiguration,omitempty"`
+	// The configuration setting for monitoring.
+	MonitoringConfiguration *MonitoringConfiguration `json:"monitoringConfiguration,omitempty"`
+}
+
+// The configuration object that allows encrypting local disks.
+type DiskEncryptionConfiguration struct {
+	EncryptionContext map[string]*string `json:"encryptionContext,omitempty"`
+	EncryptionKeyARN  *string            `json:"encryptionKeyARN,omitempty"`
+}
+
+// The IAM Identity Center Configuration accepts the Identity Center instance
+// parameter required to enable trusted identity propagation. This configuration
+// allows identity propagation between integrated services and the Identity
+// Center instance.
+type IdentityCenterConfiguration struct {
+	IdentityCenterApplicationARN  *string `json:"identityCenterApplicationARN,omitempty"`
+	IdentityCenterInstanceARN     *string `json:"identityCenterInstanceARN,omitempty"`
+	UserBackgroundSessionsEnabled *bool   `json:"userBackgroundSessionsEnabled,omitempty"`
+}
+
+// The IAM Identity Center Configuration accepts the Identity Center instance
+// parameter required to enable trusted identity propagation. This configuration
+// allows identity propagation between integrated services and the Identity
+// Center instance.
+type IdentityCenterConfigurationInput struct {
+	IdentityCenterInstanceARN     *string `json:"identityCenterInstanceARN,omitempty"`
+	UserBackgroundSessionsEnabled *bool   `json:"userBackgroundSessionsEnabled,omitempty"`
+}
+
+// The applied image configuration.
+type ImageConfiguration struct {
+	ImageURI            *string `json:"imageURI,omitempty"`
+	ResolvedImageDigest *string `json:"resolvedImageDigest,omitempty"`
+}
+
+// The image configuration.
+type ImageConfigurationInput struct {
+	ImageURI *string `json:"imageURI,omitempty"`
+}
+
+// The initial capacity configuration per worker.
+type InitialCapacityConfig struct {
+	// The cumulative configuration requirements for every worker instance of the
+	// worker type.
+	WorkerConfiguration *WorkerResourceConfig `json:"workerConfiguration,omitempty"`
+	WorkerCount         *int64                `json:"workerCount,omitempty"`
+}
+
+// The configuration to use to enable the different types of interactive use
+// cases in an application.
+type InteractiveConfiguration struct {
+	LivyEndpointEnabled *bool `json:"livyEndpointEnabled,omitempty"`
+	StudioEnabled       *bool `json:"studioEnabled,omitempty"`
+}
+
+// The configuration object that enables job level cost allocation.
+type JobLevelCostAllocationConfiguration struct {
+	Enabled *bool `json:"enabled,omitempty"`
+}
+
+// Information about a job run. A job run is a unit of work, such as a Spark
+// JAR, Hive query, or SparkSQL query, that you submit to an Amazon EMR Serverless
+// application.
+type JobRun struct {
+	ApplicationID    *string      `json:"applicationID,omitempty"`
+	AttemptCreatedAt *metav1.Time `json:"attemptCreatedAt,omitempty"`
+	AttemptUpdatedAt *metav1.Time `json:"attemptUpdatedAt,omitempty"`
+	CreatedAt        *metav1.Time `json:"createdAt,omitempty"`
+	EndedAt          *metav1.Time `json:"endedAt,omitempty"`
+	Name             *string      `json:"name,omitempty"`
+	// The network configuration for customer VPC connectivity.
+	NetworkConfiguration          *NetworkConfiguration `json:"networkConfiguration,omitempty"`
+	ReleaseLabel                  *string               `json:"releaseLabel,omitempty"`
+	StartedAt                     *metav1.Time          `json:"startedAt,omitempty"`
+	StateDetails                  *string               `json:"stateDetails,omitempty"`
+	Tags                          map[string]*string    `json:"tags,omitempty"`
+	TotalExecutionDurationSeconds *int64                `json:"totalExecutionDurationSeconds,omitempty"`
+	UpdatedAt                     *metav1.Time          `json:"updatedAt,omitempty"`
+}
+
+// The summary of attributes associated with a job run attempt.
+type JobRunAttemptSummary struct {
+	ApplicationID *string      `json:"applicationID,omitempty"`
+	CreatedAt     *metav1.Time `json:"createdAt,omitempty"`
+	JobCreatedAt  *metav1.Time `json:"jobCreatedAt,omitempty"`
+	Name          *string      `json:"name,omitempty"`
+	ReleaseLabel  *string      `json:"releaseLabel,omitempty"`
+	StateDetails  *string      `json:"stateDetails,omitempty"`
+	UpdatedAt     *metav1.Time `json:"updatedAt,omitempty"`
+}
+
+// The summary of attributes associated with a job run.
+type JobRunSummary struct {
+	ApplicationID    *string      `json:"applicationID,omitempty"`
+	AttemptCreatedAt *metav1.Time `json:"attemptCreatedAt,omitempty"`
+	AttemptUpdatedAt *metav1.Time `json:"attemptUpdatedAt,omitempty"`
+	CreatedAt        *metav1.Time `json:"createdAt,omitempty"`
+	Name             *string      `json:"name,omitempty"`
+	ReleaseLabel     *string      `json:"releaseLabel,omitempty"`
+	StateDetails     *string      `json:"stateDetails,omitempty"`
+	UpdatedAt        *metav1.Time `json:"updatedAt,omitempty"`
+}
+
+// The managed log persistence configuration for a job run.
+type ManagedPersistenceMonitoringConfiguration struct {
+	Enabled          *bool   `json:"enabled,omitempty"`
+	EncryptionKeyARN *string `json:"encryptionKeyARN,omitempty"`
+}
+
+// The maximum allowed cumulative resources for an application. No new resources
+// will be created once the limit is hit.
+type MaximumAllowedResources struct {
+	CPU    *string `json:"cpu,omitempty"`
+	Disk   *string `json:"disk,omitempty"`
+	Memory *string `json:"memory,omitempty"`
+}
+
+// The configuration setting for monitoring.
+type MonitoringConfiguration struct {
+	// The Amazon CloudWatch configuration for monitoring logs. You can configure
+	// your jobs to send log information to CloudWatch.
+	CloudWatchLoggingConfiguration *CloudWatchLoggingConfiguration `json:"cloudWatchLoggingConfiguration,omitempty"`
+	// The managed log persistence configuration for a job run.
+	ManagedPersistenceMonitoringConfiguration *ManagedPersistenceMonitoringConfiguration `json:"managedPersistenceMonitoringConfiguration,omitempty"`
+	// The monitoring configuration object you can configure to send metrics to
+	// Amazon Managed Service for Prometheus for a job run.
+	PrometheusMonitoringConfiguration *PrometheusMonitoringConfiguration `json:"prometheusMonitoringConfiguration,omitempty"`
+	// The Amazon S3 configuration for monitoring log publishing. You can configure
+	// your jobs to send log information to Amazon S3.
+	S3MonitoringConfiguration *S3MonitoringConfiguration `json:"s3MonitoringConfiguration,omitempty"`
+}
+
+// The network configuration for customer VPC connectivity.
+type NetworkConfiguration struct {
+	SecurityGroupIDs []*string `json:"securityGroupIDs,omitempty"`
+	SubnetIDs        []*string `json:"subnetIDs,omitempty"`
+}
+
+// The monitoring configuration object you can configure to send metrics to
+// Amazon Managed Service for Prometheus for a job run.
+type PrometheusMonitoringConfiguration struct {
+	RemoteWriteURL *string `json:"remoteWriteURL,omitempty"`
+}
+
+// The retry policy to use for a job run.
+type RetryPolicy struct {
+	MaxFailedAttemptsPerHour *int64 `json:"maxFailedAttemptsPerHour,omitempty"`
+}
+
+// The Amazon S3 configuration for monitoring log publishing. You can configure
+// your jobs to send log information to Amazon S3.
+type S3MonitoringConfiguration struct {
+	EncryptionKeyARN *string `json:"encryptionKeyARN,omitempty"`
+	LogURI           *string `json:"logURI,omitempty"`
+}
+
+// The scheduler configuration for batch and streaming jobs running on this
+// application. Supported with release labels emr-7.0.0 and above.
+type SchedulerConfiguration struct {
+	MaxConcurrentRuns   *int64 `json:"maxConcurrentRuns,omitempty"`
+	QueueTimeoutMinutes *int64 `json:"queueTimeoutMinutes,omitempty"`
+}
+
+// The cumulative configuration requirements for every worker instance of the
+// worker type.
+type WorkerResourceConfig struct {
+	CPU      *string `json:"cpu,omitempty"`
+	Disk     *string `json:"disk,omitempty"`
+	DiskType *string `json:"diskType,omitempty"`
+	Memory   *string `json:"memory,omitempty"`
+}
+
+// The specifications for a worker type.
+type WorkerTypeSpecification struct {
+	// The applied image configuration.
+	ImageConfiguration *ImageConfiguration `json:"imageConfiguration,omitempty"`
+}
+
+// The specifications for a worker type.
+type WorkerTypeSpecificationInput struct {
+	// The image configuration.
+	ImageConfiguration *ImageConfigurationInput `json:"imageConfiguration,omitempty"`
+}

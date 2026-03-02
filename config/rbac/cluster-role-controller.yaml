@@ -23,6 +23,26 @@ rules:
   - list
   - watch
 - apiGroups:
+  - emrserverless.services.k8s.aws
+  resources:
+  - applications
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - emrserverless.services.k8s.aws
+  resources:
+  - applications/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
   - services.k8s.aws
   resources:
   - fieldexports
