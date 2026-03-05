@@ -101,11 +101,6 @@ func (in *ApplicationSpec) DeepCopyInto(out *ApplicationSpec) {
 		*out = new(AutoStopConfig)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.ClientToken != nil {
-		in, out := &in.ClientToken, &out.ClientToken
-		*out = new(string)
-		**out = **in
-	}
 	if in.DiskEncryptionConfiguration != nil {
 		in, out := &in.DiskEncryptionConfiguration, &out.DiskEncryptionConfiguration
 		*out = new(DiskEncryptionConfiguration)

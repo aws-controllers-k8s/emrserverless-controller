@@ -78,13 +78,6 @@ func newResourceDelta(
 			}
 		}
 	}
-	if ackcompare.HasNilDifference(a.ko.Spec.ClientToken, b.ko.Spec.ClientToken) {
-		delta.Add("Spec.ClientToken", a.ko.Spec.ClientToken, b.ko.Spec.ClientToken)
-	} else if a.ko.Spec.ClientToken != nil && b.ko.Spec.ClientToken != nil {
-		if *a.ko.Spec.ClientToken != *b.ko.Spec.ClientToken {
-			delta.Add("Spec.ClientToken", a.ko.Spec.ClientToken, b.ko.Spec.ClientToken)
-		}
-	}
 	if ackcompare.HasNilDifference(a.ko.Spec.DiskEncryptionConfiguration, b.ko.Spec.DiskEncryptionConfiguration) {
 		delta.Add("Spec.DiskEncryptionConfiguration", a.ko.Spec.DiskEncryptionConfiguration, b.ko.Spec.DiskEncryptionConfiguration)
 	} else if a.ko.Spec.DiskEncryptionConfiguration != nil && b.ko.Spec.DiskEncryptionConfiguration != nil {

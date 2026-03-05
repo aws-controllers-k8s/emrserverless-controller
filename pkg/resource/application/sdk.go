@@ -511,9 +511,6 @@ func (rm *resourceManager) newCreateRequestPayload(
 		}
 		res.AutoStopConfiguration = f2
 	}
-	if r.ko.Spec.ClientToken != nil {
-		res.ClientToken = r.ko.Spec.ClientToken
-	}
 	if r.ko.Spec.DiskEncryptionConfiguration != nil {
 		f4 := &svcsdktypes.DiskEncryptionConfiguration{}
 		if r.ko.Spec.DiskEncryptionConfiguration.EncryptionContext != nil {
@@ -1107,9 +1104,6 @@ func (rm *resourceManager) newUpdateRequestPayload(
 			f3.IdleTimeoutMinutes = &idleTimeoutMinutesCopy
 		}
 		res.AutoStopConfiguration = f3
-	}
-	if r.ko.Spec.ClientToken != nil {
-		res.ClientToken = r.ko.Spec.ClientToken
 	}
 	if r.ko.Spec.DiskEncryptionConfiguration != nil {
 		f5 := &svcsdktypes.DiskEncryptionConfiguration{}

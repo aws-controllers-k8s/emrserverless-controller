@@ -33,12 +33,6 @@ type ApplicationSpec struct {
 	// The configuration for an application to automatically stop after a certain
 	// amount of time being idle.
 	AutoStopConfiguration *AutoStopConfig `json:"autoStopConfiguration,omitempty"`
-	// The client idempotency token of the application to create. Its value must
-	// be unique for each request.
-	//
-	// Regex Pattern: `^[A-Za-z0-9._-]+$`
-	// +kubebuilder:validation:Required
-	ClientToken *string `json:"clientToken"`
 	// The configuration object that allows encrypting local disks.
 	DiskEncryptionConfiguration *DiskEncryptionConfiguration `json:"diskEncryptionConfiguration,omitempty"`
 	// The IAM Identity Center Configuration accepts the Identity Center instance

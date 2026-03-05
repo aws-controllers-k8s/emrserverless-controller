@@ -64,13 +64,6 @@ spec:
                     format: int64
                     type: integer
                 type: object
-              clientToken:
-                description: |-
-                  The client idempotency token of the application to create. Its value must
-                  be unique for each request.
-
-                  Regex Pattern: `^[A-Za-z0-9._-]+$`
-                type: string
               diskEncryptionConfiguration:
                 description: The configuration object that allows encrypting local
                   disks.
@@ -386,7 +379,6 @@ spec:
                 description: The specification applied to each worker type.
                 type: object
             required:
-            - clientToken
             - releaseLabel
             - type
             type: object
