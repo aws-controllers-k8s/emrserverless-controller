@@ -2,12 +2,11 @@ ignore:
   resource_names: []
   field_paths:
       - Configuration.Configurations
-      - CreateApplicationInput.ClientToken
-      - UpdateApplicationInput.ClientToken
 sdk_names:
   model_name: emr-serverless
 resources:
   Application:
+      ignore_idempotency_token: true
       synced:
         when:
           - path: Status.State
