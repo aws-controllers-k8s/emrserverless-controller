@@ -18,39 +18,39 @@ package v1alpha1
 type ApplicationState string
 
 const (
-	ApplicationState_CREATING   ApplicationState = "CREATING"
-	ApplicationState_CREATED    ApplicationState = "CREATED"
-	ApplicationState_STARTING   ApplicationState = "STARTING"
-	ApplicationState_STARTED    ApplicationState = "STARTED"
-	ApplicationState_STOPPING   ApplicationState = "STOPPING"
-	ApplicationState_STOPPED    ApplicationState = "STOPPED"
+	ApplicationState_CREATING ApplicationState = "CREATING"
+	ApplicationState_CREATED ApplicationState = "CREATED"
+	ApplicationState_STARTING ApplicationState = "STARTING"
+	ApplicationState_STARTED ApplicationState = "STARTED"
+	ApplicationState_STOPPING ApplicationState = "STOPPING"
+	ApplicationState_STOPPED ApplicationState = "STOPPED"
 	ApplicationState_TERMINATED ApplicationState = "TERMINATED"
 )
 
 type Architecture string
 
 const (
-	Architecture_ARM64  Architecture = "ARM64"
+	Architecture_ARM64 Architecture = "ARM64"
 	Architecture_X86_64 Architecture = "X86_64"
 )
 
 type JobRunMode string
 
 const (
-	JobRunMode_BATCH     JobRunMode = "BATCH"
+	JobRunMode_BATCH JobRunMode = "BATCH"
 	JobRunMode_STREAMING JobRunMode = "STREAMING"
 )
 
 type JobRunState string
 
 const (
-	JobRunState_SUBMITTED  JobRunState = "SUBMITTED"
-	JobRunState_PENDING    JobRunState = "PENDING"
-	JobRunState_SCHEDULED  JobRunState = "SCHEDULED"
-	JobRunState_RUNNING    JobRunState = "RUNNING"
-	JobRunState_SUCCESS    JobRunState = "SUCCESS"
-	JobRunState_FAILED     JobRunState = "FAILED"
+	JobRunState_SUBMITTED JobRunState = "SUBMITTED"
+	JobRunState_PENDING JobRunState = "PENDING"
+	JobRunState_SCHEDULED JobRunState = "SCHEDULED"
+	JobRunState_RUNNING JobRunState = "RUNNING"
+	JobRunState_SUCCESS JobRunState = "SUCCESS"
+	JobRunState_FAILED JobRunState = "FAILED"
 	JobRunState_CANCELLING JobRunState = "CANCELLING"
-	JobRunState_CANCELLED  JobRunState = "CANCELLED"
-	JobRunState_QUEUED     JobRunState = "QUEUED"
+	JobRunState_CANCELLED JobRunState = "CANCELLED"
+	JobRunState_QUEUED JobRunState = "QUEUED"
 )

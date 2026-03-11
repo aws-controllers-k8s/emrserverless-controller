@@ -6,7 +6,6 @@ spec:
   name: $APPLICATION_NAME
   releaseLabel: $RELEASE_LABEL
   type: $APPLICATION_TYPE
-  clientToken: $CLIENT_TOKEN
   autoStartConfiguration:
     enabled: true
   autoStopConfiguration:

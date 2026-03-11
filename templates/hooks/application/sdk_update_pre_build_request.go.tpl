@@ -1,4 +1,5 @@
-desired.SetStatus(latest)
+updatedDesired := desired.DeepCopy()
+updatedDesired.SetStatus(latest)
 if delta.DifferentAt("Spec.Tags") {
     arn := string(*latest.ko.Status.ACKResourceMetadata.ARN)
     err = syncTags(
@@ -11,5 +12,5 @@ if delta.DifferentAt("Spec.Tags") {
     }
 }
 if !delta.DifferentExcept("Spec.Tags") {
-    return desired, nil
+    return rm.concreteResource(updatedDesired), nil
 }

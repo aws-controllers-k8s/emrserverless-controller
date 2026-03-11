@@ -26,63 +26,63 @@ import (
 // to run jobs.
 type ApplicationSpec struct {
 
-	// The CPU architecture of an application.
-	Architecture *string `json:"architecture,omitempty"`
-	// The configuration for an application to automatically start on job submission.
-	AutoStartConfiguration *AutoStartConfig `json:"autoStartConfiguration,omitempty"`
-	// The configuration for an application to automatically stop after a certain
-	// amount of time being idle.
-	AutoStopConfiguration *AutoStopConfig `json:"autoStopConfiguration,omitempty"`
-	// The configuration object that allows encrypting local disks.
-	DiskEncryptionConfiguration *DiskEncryptionConfiguration `json:"diskEncryptionConfiguration,omitempty"`
-	// The IAM Identity Center Configuration accepts the Identity Center instance
-	// parameter required to enable trusted identity propagation. This configuration
-	// allows identity propagation between integrated services and the Identity
-	// Center instance.
-	IdentityCenterConfiguration *IdentityCenterConfigurationInput `json:"identityCenterConfiguration,omitempty"`
-	// The image configuration for all worker types. You can either set this parameter
-	// or imageConfiguration for each worker type in workerTypeSpecifications.
-	ImageConfiguration *ImageConfigurationInput `json:"imageConfiguration,omitempty"`
-	// The capacity to initialize when the application is created.
-	InitialCapacity map[string]*InitialCapacityConfig `json:"initialCapacity,omitempty"`
-	// The interactive configuration object that enables the interactive use cases
-	// to use when running an application.
-	InteractiveConfiguration *InteractiveConfiguration `json:"interactiveConfiguration,omitempty"`
-	// The configuration object that enables job level cost allocation.
-	JobLevelCostAllocationConfiguration *JobLevelCostAllocationConfiguration `json:"jobLevelCostAllocationConfiguration,omitempty"`
-	// The maximum capacity to allocate when the application is created. This is
-	// cumulative across all workers at any given point in time, not just when an
-	// application is created. No new resources will be created once any one of
-	// the defined limits is hit.
-	MaximumCapacity *MaximumAllowedResources `json:"maximumCapacity,omitempty"`
-	// The configuration setting for monitoring.
-	MonitoringConfiguration *MonitoringConfiguration `json:"monitoringConfiguration,omitempty"`
-	// The name of the application.
-	//
-	// Regex Pattern: `^[A-Za-z0-9._/#-]+$`
-	Name *string `json:"name,omitempty"`
-	// The network configuration for customer VPC connectivity.
-	NetworkConfiguration *NetworkConfiguration `json:"networkConfiguration,omitempty"`
-	// The Amazon EMR release associated with the application.
-	//
-	// Regex Pattern: `^[A-Za-z0-9._/-]+$`
-	// +kubebuilder:validation:Required
-	ReleaseLabel *string `json:"releaseLabel"`
-	// The Configuration (https://docs.aws.amazon.com/emr-serverless/latest/APIReference/API_Configuration.html)
-	// specifications to use when creating an application. Each configuration consists
-	// of a classification and properties. This configuration is applied to all
-	// the job runs submitted under the application.
-	RuntimeConfiguration []*Configuration `json:"runtimeConfiguration,omitempty"`
-	// The scheduler configuration for batch and streaming jobs running on this
-	// application. Supported with release labels emr-7.0.0 and above.
-	SchedulerConfiguration *SchedulerConfiguration `json:"schedulerConfiguration,omitempty"`
-	// The tags assigned to the application.
-	Tags map[string]*string `json:"tags,omitempty"`
-	// The type of application you want to start, such as Spark or Hive.
-	// +kubebuilder:validation:Required
-	Type *string `json:"type,omitempty"`
-	// The specification applied to each worker type.
-	WorkerTypeSpecifications map[string]*WorkerTypeSpecification `json:"workerTypeSpecifications,omitempty"`
+// The CPU architecture of an application.
+Architecture *string `json:"architecture,omitempty"`
+// The configuration for an application to automatically start on job submission.
+AutoStartConfiguration *AutoStartConfig `json:"autoStartConfiguration,omitempty"`
+// The configuration for an application to automatically stop after a certain
+// amount of time being idle.
+AutoStopConfiguration *AutoStopConfig `json:"autoStopConfiguration,omitempty"`
+// The configuration object that allows encrypting local disks.
+DiskEncryptionConfiguration *DiskEncryptionConfiguration `json:"diskEncryptionConfiguration,omitempty"`
+// The IAM Identity Center Configuration accepts the Identity Center instance
+// parameter required to enable trusted identity propagation. This configuration
+// allows identity propagation between integrated services and the Identity
+// Center instance.
+IdentityCenterConfiguration *IdentityCenterConfigurationInput `json:"identityCenterConfiguration,omitempty"`
+// The image configuration for all worker types. You can either set this parameter
+// or imageConfiguration for each worker type in workerTypeSpecifications.
+ImageConfiguration *ImageConfigurationInput `json:"imageConfiguration,omitempty"`
+// The capacity to initialize when the application is created.
+InitialCapacity map[string]*InitialCapacityConfig `json:"initialCapacity,omitempty"`
+// The interactive configuration object that enables the interactive use cases
+// to use when running an application.
+InteractiveConfiguration *InteractiveConfiguration `json:"interactiveConfiguration,omitempty"`
+// The configuration object that enables job level cost allocation.
+JobLevelCostAllocationConfiguration *JobLevelCostAllocationConfiguration `json:"jobLevelCostAllocationConfiguration,omitempty"`
+// The maximum capacity to allocate when the application is created. This is
+// cumulative across all workers at any given point in time, not just when an
+// application is created. No new resources will be created once any one of
+// the defined limits is hit.
+MaximumCapacity *MaximumAllowedResources `json:"maximumCapacity,omitempty"`
+// The configuration setting for monitoring.
+MonitoringConfiguration *MonitoringConfiguration `json:"monitoringConfiguration,omitempty"`
+// The name of the application.
+//
+// Regex Pattern: `^[A-Za-z0-9._/#-]+$`
+Name *string `json:"name,omitempty"`
+// The network configuration for customer VPC connectivity.
+NetworkConfiguration *NetworkConfiguration `json:"networkConfiguration,omitempty"`
+// The Amazon EMR release associated with the application.
+//
+// Regex Pattern: `^[A-Za-z0-9._/-]+$`
+// +kubebuilder:validation:Required
+ReleaseLabel *string `json:"releaseLabel"`
+// The Configuration (https://docs.aws.amazon.com/emr-serverless/latest/APIReference/API_Configuration.html)
+// specifications to use when creating an application. Each configuration consists
+// of a classification and properties. This configuration is applied to all
+// the job runs submitted under the application.
+RuntimeConfiguration []*Configuration `json:"runtimeConfiguration,omitempty"`
+// The scheduler configuration for batch and streaming jobs running on this
+// application. Supported with release labels emr-7.0.0 and above.
+SchedulerConfiguration *SchedulerConfiguration `json:"schedulerConfiguration,omitempty"`
+// The tags assigned to the application.
+Tags map[string]*string `json:"tags,omitempty"`
+// The type of application you want to start, such as Spark or Hive.
+// +kubebuilder:validation:Required
+Type *string `json:"type,omitempty"`
+// The specification applied to each worker type.
+WorkerTypeSpecifications map[string]*WorkerTypeSpecification `json:"workerTypeSpecifications,omitempty"`
 }
 
 // ApplicationStatus defines the observed state of Application
@@ -102,16 +102,16 @@ type ApplicationStatus struct {
 	// +kubebuilder:validation:Optional
 	CreatedAt *metav1.Time `json:"createdAt,omitempty"`
 	// The output contains the application ID.
-	//
-	// Regex Pattern: `^[0-9a-z]+$`
+//
+// Regex Pattern: `^[0-9a-z]+$`
 	// +kubebuilder:validation:Optional
 	ID *string `json:"id,omitempty"`
 	// The state of the application.
 	// +kubebuilder:validation:Optional
 	State *string `json:"state,omitempty"`
 	// The state details of the application.
-	//
-	// Regex Pattern: `.*\S.*`
+//
+// Regex Pattern: `.*\S.*`
 	// +kubebuilder:validation:Optional
 	StateDetails *string `json:"stateDetails,omitempty"`
 	// The date and time when the application run was last updated.
@@ -125,8 +125,8 @@ type ApplicationStatus struct {
 type Application struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ApplicationSpec   `json:"spec,omitempty"`
-	Status            ApplicationStatus `json:"status,omitempty"`
+	Spec   ApplicationSpec   `json:"spec,omitempty"`
+	Status ApplicationStatus `json:"status,omitempty"`
 }
 
 // ApplicationList contains a list of Application
@@ -134,7 +134,7 @@ type Application struct {
 type ApplicationList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Application `json:"items"`
+	Items []Application `json:"items"`
 }
 
 func init() {

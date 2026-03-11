@@ -1,6 +1,6 @@
 ignore:
-  resource_names: []
   field_paths:
+      # Unsupported recursive field path.
       - Configuration.Configurations
 sdk_names:
   model_name: emr-serverless
@@ -15,8 +15,6 @@ resources:
               - STARTED
               - STOPPED
       fields:
-          Name:
-            is_primary_key: true
           # Fix type_ -> type for the application type field (Spark, Hive, etc.)
           Type:
             go_tag: json:"type,omitempty"

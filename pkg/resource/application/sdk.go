@@ -724,7 +724,8 @@ func (rm *resourceManager) sdkUpdate(
 	defer func() {
 		exit(err)
 	}()
-	desired.SetStatus(latest)
+	updatedDesired := desired.DeepCopy()
+	updatedDesired.SetStatus(latest)
 	if delta.DifferentAt("Spec.Tags") {
 		arn := string(*latest.ko.Status.ACKResourceMetadata.ARN)
 		err = syncTags(
@@ -737,7 +738,7 @@ func (rm *resourceManager) sdkUpdate(
 		}
 	}
 	if !delta.DifferentExcept("Spec.Tags") {
-		return desired, nil
+		return rm.concreteResource(updatedDesired), nil
 	}
 
 	input, err := rm.newUpdateRequestPayload(ctx, desired, delta)

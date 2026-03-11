@@ -43,7 +43,6 @@ def _create_application(resource_name: str, application_type: str = "SPARK"):
     replacements["APPLICATION_NAME"] = resource_name
     replacements["RELEASE_LABEL"] = "emr-7.0.0"
     replacements["APPLICATION_TYPE"] = application_type
-    replacements["CLIENT_TOKEN"] = str(uuid.uuid4())
     
     resource_data = load_emrserverless_resource(
         "application",
