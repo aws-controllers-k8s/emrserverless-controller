@@ -18,6 +18,9 @@ resources:
           # Fix type_ -> type for the application type field (Spark, Hive, etc.)
           Type:
             go_tag: json:"type,omitempty"
+          # Primary identifier - AWS-generated application ID used for all API lookups
+          ID:
+            is_primary_key: true
           # Status fields from GetApplication output
           State:
             is_read_only: true
@@ -39,6 +42,18 @@ resources:
             from:
               operation: GetApplication
               path: Application.UpdatedAt
+          # AWS-assigned Identity Center application ARN (read-only, not user-settable)
+          IdentityCenterApplicationARN:
+            is_read_only: true
+            from:
+              operation: GetApplication
+              path: Application.IdentityCenterConfiguration.IdentityCenterApplicationArn
+          # AWS-resolved container image digest (read-only, not user-settable)
+          ResolvedImageDigest:
+            is_read_only: true
+            from:
+              operation: GetApplication
+              path: Application.ImageConfiguration.ResolvedImageDigest
           WorkerTypeSpecifications:
             from:
               operation: GetApplication

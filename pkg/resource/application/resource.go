@@ -21,7 +21,6 @@ import (
 	ackv1alpha1 "github.com/aws-controllers-k8s/runtime/apis/core/v1alpha1"
 	ackerrors "github.com/aws-controllers-k8s/runtime/pkg/errors"
 	acktypes "github.com/aws-controllers-k8s/runtime/pkg/types"
-	"github.com/aws/aws-sdk-go-v2/aws"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	rtclient "sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -91,28 +90,18 @@ func (r *resource) SetIdentifiers(identifier *ackv1alpha1.AWSIdentifiers) error 
 	if identifier.NameOrID == "" {
 		return ackerrors.MissingNameIdentifier
 	}
-	r.ko.Spec.Name = &identifier.NameOrID
-
-	f0, f0ok := identifier.AdditionalKeys["id"]
-	if f0ok {
-		r.ko.Status.ID = aws.String(f0)
-	}
+	r.ko.Status.ID = &identifier.NameOrID
 
 	return nil
 }
 
 // PopulateResourceFromAnnotation populates the fields passed from adoption annotation
 func (r *resource) PopulateResourceFromAnnotation(fields map[string]string) error {
-	primaryKey, ok := fields["name"]
-	if !ok {
-		return ackerrors.NewTerminalError(fmt.Errorf("required field missing: name"))
-	}
-	r.ko.Spec.Name = &primaryKey
-	f0, ok := fields["id"]
+	primaryKey, ok := fields["id"]
 	if !ok {
 		return ackerrors.NewTerminalError(fmt.Errorf("required field missing: id"))
 	}
-	r.ko.Status.ID = &f0
+	r.ko.Status.ID = &primaryKey
 
 	return nil
 }

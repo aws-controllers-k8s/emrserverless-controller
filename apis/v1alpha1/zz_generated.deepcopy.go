@@ -260,6 +260,16 @@ func (in *ApplicationStatus) DeepCopyInto(out *ApplicationStatus) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.IdentityCenterApplicationARN != nil {
+		in, out := &in.IdentityCenterApplicationARN, &out.IdentityCenterApplicationARN
+		*out = new(string)
+		**out = **in
+	}
+	if in.ResolvedImageDigest != nil {
+		in, out := &in.ResolvedImageDigest, &out.ResolvedImageDigest
+		*out = new(string)
+		**out = **in
+	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
 		*out = new(string)
