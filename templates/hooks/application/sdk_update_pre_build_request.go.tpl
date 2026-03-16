@@ -1,5 +1,5 @@
 if !applicationCreatedOrStopped(latest) {
-    msg := fmt.Sprintf("application in '%s' state, cannot be modified until 'CREATED' or 'STOPPED'", latest.ko.Status.State)
+    msg := fmt.Sprintf("application in '%s' state, cannot be modified until 'CREATED' or 'STOPPED'", string(*latest.ko.Status.State))
     ackcondition.SetSynced(latest, corev1.ConditionFalse, &msg, nil)
     return latest, requeueWaitUntilCanModify(latest)
 }
