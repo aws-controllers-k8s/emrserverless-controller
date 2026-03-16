@@ -102,6 +102,8 @@ resources:
               - method: Update
                 ignore: true
       hooks:
+        sdk_read_one_post_set_output:
+          template_path: hooks/application/sdk_read_one_post_set_output.go.tpl
         sdk_update_pre_build_request:
           template_path: hooks/application/sdk_update_pre_build_request.go.tpl
       renames:

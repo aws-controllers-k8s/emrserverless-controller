@@ -388,6 +388,10 @@ func (rm *resourceManager) sdkFind(
 	}
 
 	rm.setStatusDefaults(ko)
+	if ko.Status.State != nil && *ko.Status.State == string(svcapitypes.ApplicationState_TERMINATED) {
+		return nil, ackerr.NotFound
+	}
+
 	return &resource{ko}, nil
 }
 
@@ -724,6 +728,11 @@ func (rm *resourceManager) sdkUpdate(
 	defer func() {
 		exit(err)
 	}()
+	if !applicationCreatedOrStopped(latest) {
+		msg := fmt.Sprintf("application in '%s' state, cannot be modified until 'CREATED' or 'STOPPED'", latest.ko.Status.State)
+		ackcondition.SetSynced(latest, corev1.ConditionFalse, &msg, nil)
+		return latest, requeueWaitUntilCanModify(latest)
+	}
 	updatedDesired := desired.DeepCopy()
 	updatedDesired.SetStatus(latest)
 	if delta.DifferentAt("Spec.Tags") {
