@@ -190,7 +190,7 @@ class TestApplication:
         assert app["maximumCapacity"]["cpu"] == "4 vCPU"
         assert app["maximumCapacity"]["memory"] == "16 GB"
 
-    def test_create_delete_tags(self, emrserverless_client, simple_application):
+    def test_crud_tags(self, emrserverless_client, simple_application):
         (ref, cr) = simple_application
         
         # Wait for initial sync

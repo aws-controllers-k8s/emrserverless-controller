@@ -53,7 +53,7 @@ func Tags(
 			key, val := key, val
 			toAdd[key] = val
 		}
-		rlog.Debug("adding tags to work group", "tags", added)
+		rlog.Debug("adding tags to resource", "tags", added)
 		_, err = sdkapi.TagResource(
 			ctx,
 			&svcsdk.TagResourceInput{
@@ -73,7 +73,7 @@ func Tags(
 			key := key
 			toRemove = append(toRemove, key)
 		}
-		rlog.Debug("removing tags from work group", "tags", removed)
+		rlog.Debug("removing tags from resource", "tags", removed)
 		_, err = sdkapi.UntagResource(
 			ctx,
 			&svcsdk.UntagResourceInput{
