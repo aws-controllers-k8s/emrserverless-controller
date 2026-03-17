@@ -42,4 +42,4 @@ def k8s_client():
 
 @pytest.fixture(scope='module')
 def emrserverless_client():
-    return boto3.client('emrserverless')
+    return boto3.client('emr-serverless')

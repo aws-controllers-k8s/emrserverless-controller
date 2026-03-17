@@ -1,5 +1,130 @@
 ignore:
-  resource_names:
-      - Application
+  field_paths:
+      # Unsupported recursive field path.
+      - Configuration.Configurations
 sdk_names:
   model_name: emr-serverless
+resources:
+  Application:
+      ignore_idempotency_token: true
+      synced:
+        when:
+          - path: Status.State
+            in:
+              - CREATED
+              - STARTED
+              - STOPPED
+      fields:
+          # Fix type_ -> type for the application type field (Spark, Hive, etc.)
+          Type:
+            go_tag: json:"type,omitempty"
+          # Primary identifier - AWS-generated application ID used for all API lookups
+          ID:
+            is_primary_key: true
+          # Status fields from GetApplication output
+          State:
+            is_read_only: true
+            from:
+              operation: GetApplication
+              path: Application.State
+          StateDetails:
+            is_read_only: true
+            from:
+              operation: GetApplication
+              path: Application.StateDetails
+          CreatedAt:
+            is_read_only: true
+            from:
+              operation: GetApplication
+              path: Application.CreatedAt
+          UpdatedAt:
+            is_read_only: true
+            from:
+              operation: GetApplication
+              path: Application.UpdatedAt
+          # AWS-assigned Identity Center application ARN (read-only, not user-settable)
+          IdentityCenterApplicationARN:
+            is_read_only: true
+            from:
+              operation: GetApplication
+              path: Application.IdentityCenterConfiguration.IdentityCenterApplicationArn
+          # AWS-resolved container image digest (read-only, not user-settable)
+          ResolvedImageDigest:
+            is_read_only: true
+            from:
+              operation: GetApplication
+              path: Application.ImageConfiguration.ResolvedImageDigest
+          WorkerTypeSpecifications:
+            from:
+              operation: GetApplication
+              path: Application.WorkerTypeSpecifications
+          # KMS Key for disk encryption
+          DiskEncryptionConfiguration.EncryptionKeyARN:
+            references:
+              resource: Key
+              service_name: kms
+              path: Status.ACKResourceMetadata.ARN
+          # KMS Key for CloudWatch logging encryption
+          MonitoringConfiguration.CloudWatchLoggingConfiguration.EncryptionKeyARN:
+            references:
+              resource: Key
+              service_name: kms
+              path: Status.ACKResourceMetadata.ARN
+          # KMS Key for managed persistence monitoring encryption
+          MonitoringConfiguration.ManagedPersistenceMonitoringConfiguration.EncryptionKeyARN:
+            references:
+              resource: Key
+              service_name: kms
+              path: Status.ACKResourceMetadata.ARN
+          # KMS Key for S3 monitoring encryption
+          MonitoringConfiguration.S3MonitoringConfiguration.EncryptionKeyARN:
+            references:
+              resource: Key
+              service_name: kms
+              path: Status.ACKResourceMetadata.ARN
+          # EC2 Security Groups for VPC connectivity
+          NetworkConfiguration.SecurityGroupIDs:
+            references:
+              resource: SecurityGroup
+              service_name: ec2
+              path: Status.ID
+          # EC2 Subnets for VPC connectivity
+          NetworkConfiguration.SubnetIDs:
+            references:
+              resource: Subnet
+              service_name: ec2
+              path: Status.SubnetID
+          # Tags are synced separately via TagResource/UntagResource in the
+          # sdk_update_pre_build_request hook. The UpdateApplication response
+          # may return stale tag data, so ignore it in the Update output.
+          Tags:
+            set:
+              - method: Update
+                ignore: true
+      exceptions:
+        terminal_codes:
+          - ValidationException
+      hooks:
+        sdk_read_one_post_set_output:
+          template_path: hooks/application/sdk_read_one_post_set_output.go.tpl
+        sdk_update_pre_build_request:
+          template_path: hooks/application/sdk_update_pre_build_request.go.tpl
+      renames:
+        operations:
+          # Simplify ApplicationID to ID in responses
+          CreateApplication:
+            output_fields:
+              ApplicationId: ID
+          GetApplication:
+            input_fields:
+              ApplicationId: ID
+            output_fields:
+              ApplicationId: ID
+          UpdateApplication:
+            input_fields:
+              ApplicationId: ID
+            output_fields:
+              ApplicationId: ID
+          DeleteApplication:
+            input_fields:
+              ApplicationId: ID

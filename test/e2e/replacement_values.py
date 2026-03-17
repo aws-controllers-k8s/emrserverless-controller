@@ -15,4 +15,6 @@ EMR Serverless-specific test variables.
 """
 
 REPLACEMENT_VALUES = {
+    "RELEASE_LABEL": "emr-7.0.0",
+    "APPLICATION_TYPE": "SPARK",
 }
