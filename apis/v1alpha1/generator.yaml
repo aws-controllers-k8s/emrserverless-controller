@@ -104,7 +104,6 @@ resources:
       exceptions:
         terminal_codes:
           - ValidationException
-          - ServiceQuotaExceededException
       hooks:
         sdk_read_one_post_set_output:
           template_path: hooks/application/sdk_read_one_post_set_output.go.tpl
