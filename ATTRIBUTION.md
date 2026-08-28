@@ -23,7 +23,6 @@ License version 2.0, we include the full text of the package's License below.
 * `github.com/aws-controllers-k8s/ec2-controller`
 * `github.com/aws-controllers-k8s/kms-controller`
 * `github.com/aws-controllers-k8s/runtime`
-* `github.com/aws/aws-sdk-go`
 * `github.com/aws/aws-sdk-go-v2`
 * `github.com/aws/aws-sdk-go-v2/service/emrserverless`
 * `github.com/aws/smithy-go`
@@ -2074,17 +2073,6 @@ License Identifier: Apache-2.0
 License Identifier: Apache-2.0
 
 #### sigs.k8s.io/structured-merge-diff/v6
-
-License Identifier: Apache-2.0
-
-### github.com/aws/aws-sdk-go
-
-License Identifier: Apache-2.0
-
-Subdependencies:
-* `github.com/jmespath/go-jmespath`
-
-#### github.com/jmespath/go-jmespath
 
 License Identifier: Apache-2.0
 
