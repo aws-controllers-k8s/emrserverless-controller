@@ -103,6 +103,107 @@ func (rm *resourceManager) ClearResolvedReferences(res acktypes.AWSResource) ack
 	return &resource{ko}
 }
 
+// EnsureReferences restores, onto a copy of `latest`, the cross-resource reference
+// (*Ref) fields it is missing, taking them from `desired`. Only reference fields are
+// written, so every concrete value on `latest` stands.
+//
+// A *Ref is a sibling of the concrete field it resolves into, so rebuilding the
+// containing struct from an AWS API response drops it. That disables
+// ClearResolvedReferences, which suppresses a resolved value only while the sibling
+// *Ref is visible, so the spec patch would otherwise delete the declared *Ref and
+// store the resolved value in its place.
+//
+// Only references reached through structs are restored, and each containing struct
+// is created on `latest` when `desired` has it and `latest` does not -- generated
+// set-output code nils a struct when the response omits it. A top-level *Ref needs
+// no help, since generated set-output code overwrites only the concrete field. One
+// reached through a list is not restored: it has no fixed address, and replacing the
+// whole list would discard whatever the service populated inside it.
+//
+// Nothing is written unless `desired` actually holds the reference, so a source that
+// declares none leaves `latest` untouched.
+func (rm *resourceManager) EnsureReferences(
+	desired acktypes.AWSResource,
+	latest acktypes.AWSResource,
+) acktypes.AWSResource {
+	// Deep copy the source as well, so a reference handed over below does not
+	// alias the caller's declared object.
+	desiredKO := rm.concreteResource(desired).ko.DeepCopy()
+	latestKO := rm.concreteResource(latest).ko.DeepCopy()
+
+	if desiredKO.Spec.DiskEncryptionConfiguration != nil {
+		if desiredKO.Spec.DiskEncryptionConfiguration.EncryptionKeyRef != nil {
+			if latestKO.Spec.DiskEncryptionConfiguration == nil {
+				latestKO.Spec.DiskEncryptionConfiguration = &svcapitypes.DiskEncryptionConfiguration{}
+			}
+			if latestKO.Spec.DiskEncryptionConfiguration.EncryptionKeyRef == nil {
+				latestKO.Spec.DiskEncryptionConfiguration.EncryptionKeyRef = desiredKO.Spec.DiskEncryptionConfiguration.EncryptionKeyRef
+			}
+		}
+	}
+	if desiredKO.Spec.MonitoringConfiguration != nil {
+		if desiredKO.Spec.MonitoringConfiguration.CloudWatchLoggingConfiguration != nil {
+			if desiredKO.Spec.MonitoringConfiguration.CloudWatchLoggingConfiguration.EncryptionKeyRef != nil {
+				if latestKO.Spec.MonitoringConfiguration == nil {
+					latestKO.Spec.MonitoringConfiguration = &svcapitypes.MonitoringConfiguration{}
+				}
+				if latestKO.Spec.MonitoringConfiguration.CloudWatchLoggingConfiguration == nil {
+					latestKO.Spec.MonitoringConfiguration.CloudWatchLoggingConfiguration = &svcapitypes.CloudWatchLoggingConfiguration{}
+				}
+				if latestKO.Spec.MonitoringConfiguration.CloudWatchLoggingConfiguration.EncryptionKeyRef == nil {
+					latestKO.Spec.MonitoringConfiguration.CloudWatchLoggingConfiguration.EncryptionKeyRef = desiredKO.Spec.MonitoringConfiguration.CloudWatchLoggingConfiguration.EncryptionKeyRef
+				}
+			}
+		}
+		if desiredKO.Spec.MonitoringConfiguration.ManagedPersistenceMonitoringConfiguration != nil {
+			if desiredKO.Spec.MonitoringConfiguration.ManagedPersistenceMonitoringConfiguration.EncryptionKeyRef != nil {
+				if latestKO.Spec.MonitoringConfiguration == nil {
+					latestKO.Spec.MonitoringConfiguration = &svcapitypes.MonitoringConfiguration{}
+				}
+				if latestKO.Spec.MonitoringConfiguration.ManagedPersistenceMonitoringConfiguration == nil {
+					latestKO.Spec.MonitoringConfiguration.ManagedPersistenceMonitoringConfiguration = &svcapitypes.ManagedPersistenceMonitoringConfiguration{}
+				}
+				if latestKO.Spec.MonitoringConfiguration.ManagedPersistenceMonitoringConfiguration.EncryptionKeyRef == nil {
+					latestKO.Spec.MonitoringConfiguration.ManagedPersistenceMonitoringConfiguration.EncryptionKeyRef = desiredKO.Spec.MonitoringConfiguration.ManagedPersistenceMonitoringConfiguration.EncryptionKeyRef
+				}
+			}
+		}
+		if desiredKO.Spec.MonitoringConfiguration.S3MonitoringConfiguration != nil {
+			if desiredKO.Spec.MonitoringConfiguration.S3MonitoringConfiguration.EncryptionKeyRef != nil {
+				if latestKO.Spec.MonitoringConfiguration == nil {
+					latestKO.Spec.MonitoringConfiguration = &svcapitypes.MonitoringConfiguration{}
+				}
+				if latestKO.Spec.MonitoringConfiguration.S3MonitoringConfiguration == nil {
+					latestKO.Spec.MonitoringConfiguration.S3MonitoringConfiguration = &svcapitypes.S3MonitoringConfiguration{}
+				}
+				if latestKO.Spec.MonitoringConfiguration.S3MonitoringConfiguration.EncryptionKeyRef == nil {
+					latestKO.Spec.MonitoringConfiguration.S3MonitoringConfiguration.EncryptionKeyRef = desiredKO.Spec.MonitoringConfiguration.S3MonitoringConfiguration.EncryptionKeyRef
+				}
+			}
+		}
+	}
+	if desiredKO.Spec.NetworkConfiguration != nil {
+		if len(desiredKO.Spec.NetworkConfiguration.SecurityGroupRefs) > 0 {
+			if latestKO.Spec.NetworkConfiguration == nil {
+				latestKO.Spec.NetworkConfiguration = &svcapitypes.NetworkConfiguration{}
+			}
+			if len(latestKO.Spec.NetworkConfiguration.SecurityGroupRefs) == 0 {
+				latestKO.Spec.NetworkConfiguration.SecurityGroupRefs = desiredKO.Spec.NetworkConfiguration.SecurityGroupRefs
+			}
+		}
+		if len(desiredKO.Spec.NetworkConfiguration.SubnetRefs) > 0 {
+			if latestKO.Spec.NetworkConfiguration == nil {
+				latestKO.Spec.NetworkConfiguration = &svcapitypes.NetworkConfiguration{}
+			}
+			if len(latestKO.Spec.NetworkConfiguration.SubnetRefs) == 0 {
+				latestKO.Spec.NetworkConfiguration.SubnetRefs = desiredKO.Spec.NetworkConfiguration.SubnetRefs
+			}
+		}
+	}
+
+	return &resource{latestKO}
+}
+
 // ResolveReferences finds if there are any Reference field(s) present
 // inside AWSResource passed in the parameter and attempts to resolve those
 // reference field(s) into their respective target field(s). It returns a
