@@ -323,11 +323,8 @@ func (rm *resourceManager) resolveReferenceForDiskEncryptionConfiguration_Encryp
 			if arr.Name == nil || *arr.Name == "" {
 				return hasReferences, fmt.Errorf("provided resource reference is nil or empty: DiskEncryptionConfiguration.EncryptionKeyRef")
 			}
-			namespace, err := ackrt.ResolveCrossNamespaceReference(
-				ctx,
+			namespace, _, err := ackrt.ValidateCrossNamespaceReference(
 				rm.cfg.EnableCrossNamespace,
-				&ko.Status.Conditions,
-				ackrt.CrossNamespaceRefKindResource,
 				ko.ObjectMeta.GetNamespace(),
 				arr.Namespace,
 				*arr.Name,
@@ -417,11 +414,8 @@ func (rm *resourceManager) resolveReferenceForMonitoringConfiguration_CloudWatch
 				if arr.Name == nil || *arr.Name == "" {
 					return hasReferences, fmt.Errorf("provided resource reference is nil or empty: MonitoringConfiguration.CloudWatchLoggingConfiguration.EncryptionKeyRef")
 				}
-				namespace, err := ackrt.ResolveCrossNamespaceReference(
-					ctx,
+				namespace, _, err := ackrt.ValidateCrossNamespaceReference(
 					rm.cfg.EnableCrossNamespace,
-					&ko.Status.Conditions,
-					ackrt.CrossNamespaceRefKindResource,
 					ko.ObjectMeta.GetNamespace(),
 					arr.Namespace,
 					*arr.Name,
@@ -458,11 +452,8 @@ func (rm *resourceManager) resolveReferenceForMonitoringConfiguration_ManagedPer
 				if arr.Name == nil || *arr.Name == "" {
 					return hasReferences, fmt.Errorf("provided resource reference is nil or empty: MonitoringConfiguration.ManagedPersistenceMonitoringConfiguration.EncryptionKeyRef")
 				}
-				namespace, err := ackrt.ResolveCrossNamespaceReference(
-					ctx,
+				namespace, _, err := ackrt.ValidateCrossNamespaceReference(
 					rm.cfg.EnableCrossNamespace,
-					&ko.Status.Conditions,
-					ackrt.CrossNamespaceRefKindResource,
 					ko.ObjectMeta.GetNamespace(),
 					arr.Namespace,
 					*arr.Name,
@@ -499,11 +490,8 @@ func (rm *resourceManager) resolveReferenceForMonitoringConfiguration_S3Monitori
 				if arr.Name == nil || *arr.Name == "" {
 					return hasReferences, fmt.Errorf("provided resource reference is nil or empty: MonitoringConfiguration.S3MonitoringConfiguration.EncryptionKeyRef")
 				}
-				namespace, err := ackrt.ResolveCrossNamespaceReference(
-					ctx,
+				namespace, _, err := ackrt.ValidateCrossNamespaceReference(
 					rm.cfg.EnableCrossNamespace,
-					&ko.Status.Conditions,
-					ackrt.CrossNamespaceRefKindResource,
 					ko.ObjectMeta.GetNamespace(),
 					arr.Namespace,
 					*arr.Name,
@@ -540,11 +528,8 @@ func (rm *resourceManager) resolveReferenceForNetworkConfiguration_SecurityGroup
 				if arr.Name == nil || *arr.Name == "" {
 					return hasReferences, fmt.Errorf("provided resource reference is nil or empty: NetworkConfiguration.SecurityGroupRefs")
 				}
-				namespace, err := ackrt.ResolveCrossNamespaceReference(
-					ctx,
+				namespace, _, err := ackrt.ValidateCrossNamespaceReference(
 					rm.cfg.EnableCrossNamespace,
-					&ko.Status.Conditions,
-					ackrt.CrossNamespaceRefKindResource,
 					ko.ObjectMeta.GetNamespace(),
 					arr.Namespace,
 					*arr.Name,
@@ -638,11 +623,8 @@ func (rm *resourceManager) resolveReferenceForNetworkConfiguration_SubnetIDs(
 				if arr.Name == nil || *arr.Name == "" {
 					return hasReferences, fmt.Errorf("provided resource reference is nil or empty: NetworkConfiguration.SubnetRefs")
 				}
-				namespace, err := ackrt.ResolveCrossNamespaceReference(
-					ctx,
+				namespace, _, err := ackrt.ValidateCrossNamespaceReference(
 					rm.cfg.EnableCrossNamespace,
-					&ko.Status.Conditions,
-					ackrt.CrossNamespaceRefKindResource,
 					ko.ObjectMeta.GetNamespace(),
 					arr.Namespace,
 					*arr.Name,
